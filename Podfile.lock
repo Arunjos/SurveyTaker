@@ -1,25 +1,37 @@
 PODS:
+  - Alamofire (4.8.1)
   - Crashlytics (3.12.0):
     - Fabric (~> 1.9.0)
   - Fabric (1.9.0)
+  - Kingfisher (4.2.0)
+  - ObjectMapper (3.4.2)
   - SwiftLint (0.29.1)
 
 DEPENDENCIES:
+  - Alamofire
   - Crashlytics
   - Fabric
+  - Kingfisher (~> 4.2.0)
+  - ObjectMapper
   - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Alamofire
     - Crashlytics
     - Fabric
+    - Kingfisher
+    - ObjectMapper
     - SwiftLint
 
 SPEC CHECKSUMS:
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
+  Kingfisher: 9ee7e788d8ba07c3f21ce0d43f33cec310a4f781
+  ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   SwiftLint: 6772320e40b52049053a518c17db9b0634a0b45a
 
-PODFILE CHECKSUM: b066afd74f4fbd9b287e37244a4bd4dec1f5c40b
+PODFILE CHECKSUM: a08ba64bac46977d962646b42bc68336bdda83bb
 
 COCOAPODS: 1.5.2

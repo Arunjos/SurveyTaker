@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qs7-wo-Ity">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="xm1-Z6-ucR">
+            <objects>
+                <navigationController id="qs7-wo-Ity" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jJJ-qU-6wX">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.18431372549019609" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ar3-gI-PbG" kind="relationship" relationship="rootViewController" id="8ei-t8-z1Q"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UL7-Fy-tdM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-854" y="-130"/>
+        </scene>
+        <!--SURVEYS-->
+        <scene sceneID="HKh-HZ-m7c">
+            <objects>
+                <viewController id="ar3-gI-PbG" customClass="SurveyViewController" customModule="SurveyTaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JQP-cx-WhK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XVc-f3-wz6">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ar3-gI-PbG" id="wFU-fJ-H7o"/>
+                                    <outlet property="delegate" destination="ar3-gI-PbG" id="g0x-V0-eXF"/>
+                                </connections>
+                            </tableView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="QMn-n6-hjA">
+                                <rect key="frame" x="98" y="559" width="180" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="pageIndicatorTintColor" red="0.074509803920000006" green="0.1019607843" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
+                            </pageControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="XVc-f3-wz6" firstAttribute="top" secondItem="M4E-oH-8ZD" secondAttribute="top" id="1TB-PK-qNU"/>
+                            <constraint firstItem="XVc-f3-wz6" firstAttribute="leading" secondItem="M4E-oH-8ZD" secondAttribute="leading" id="AVr-St-Lhv"/>
+                            <constraint firstItem="M4E-oH-8ZD" firstAttribute="trailing" secondItem="XVc-f3-wz6" secondAttribute="trailing" id="c0d-wH-sIx"/>
+                            <constraint firstItem="M4E-oH-8ZD" firstAttribute="bottom" secondItem="XVc-f3-wz6" secondAttribute="bottom" id="rAq-zO-jyu"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="M4E-oH-8ZD"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="SURVEYS" id="CkR-hu-FUf">
+                        <barButtonItem key="leftBarButtonItem" image="refresh" id="1tM-DC-sWt">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="toogle" id="vl6-te-8Bl">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="surveyTableView" destination="XVc-f3-wz6" id="cnx-bP-jo4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pVb-PP-Sam" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-170.40000000000001" y="-135.38230884557723"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="refresh" width="25" height="25"/>
+        <image name="toogle" width="25" height="25"/>
+    </resources>
+</document>

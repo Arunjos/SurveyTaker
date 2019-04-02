@@ -11,6 +11,10 @@ target 'SurveyTaker' do
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'SwiftLint'
+  pod 'ObjectMapper'
+  pod 'Kingfisher', '~> 4.2.0'
+  pod 'Alamofire'
+  pod 'CHIPageControl'
 
   target 'SurveyTakerTests' do
     inherit! :search_paths

@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  SurveyTaker
 //
-//  Created by __AUTHOR NAME__ on 3/19/18.
+//  Created by Arun Jose on 3/19/18.
 //  Copyright © 2018 __ORGANIZATION NAME__. All rights reserved.
 //
 
@@ -18,15 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // swiftlint:disable:next discouraged_optional_collection
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self])
-        
-        if window == nil {
-            window = UIWindow(frame: UIScreen.main.bounds)
-        }
-        let viewController = ViewController()
-        viewController.view.backgroundColor = .white
-        window?.rootViewController = viewController
-        window?.makeKeyAndVisible()
-        
         return true
     }
 
