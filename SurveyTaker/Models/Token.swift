@@ -10,12 +10,12 @@ import Foundation
 import ObjectMapper
 
 public class Token: Mappable {
-    public var accessToken:String?
-    public var type:String?
-    public var expiresIn:Int?
-    public var createdAt:Int?
+    public var accessToken: String?
+    public var type: String?
+    public var expiresIn: Int?
+    public var createdAt: Int?
     
-    required public init?(map: Map){
+    required public init?(map: Map) {
         
     }
     
@@ -27,8 +27,8 @@ public class Token: Mappable {
     }
 }
 
-extension Token {
-    public static func getTokenFrom(jsonObj:[String:Any]) -> Token? {
+public extension Token {
+    static func getTokenFrom(jsonObj: [String: Any]) -> Token? {
         let token = Mapper<Token>().map(JSON: jsonObj)
         return token
     }

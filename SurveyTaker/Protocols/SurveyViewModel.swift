@@ -9,13 +9,13 @@
 import Foundation
 
 protocol SurveyViewModel {
-    var isOffline:Dynamic<Bool> { get }
-    var noOfSurveys:Dynamic<Int> { get }
-    var isSurveyDataLoading:Dynamic<Bool> { get }
-    var error:Dynamic<String> { get }
+    var isOffline: Dynamic<Bool> { get }
+    var noOfSurveys: Dynamic<Int> { get }
+    var isSurveyDataLoading: Dynamic<Bool> { get }
+    var error: Dynamic<String> { get }
     
-    func getSurveyDetail(atIndex indexpath:IndexPath) -> Survey?
+    func getSurveyDetail(atIndex indexpath: IndexPath) -> Survey?
     func fetchSurvey()
 //    func fetchSurvey(witAccessToken accessToken:String, forUrl url:String)
-    func refreshSurveys(witAccessToken accessToken:String, forUrl url:String)
+    func refreshSurveys(witAccessToken accessToken: String, forUrl url: String)
 }

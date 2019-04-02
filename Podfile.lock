@@ -1,14 +1,16 @@
 PODS:
-  - Alamofire (4.8.1)
+  - Alamofire (4.8.2)
+  - CHIPageControl/Aleppo (0.1.6)
   - Crashlytics (3.12.0):
     - Fabric (~> 1.9.0)
   - Fabric (1.9.0)
   - Kingfisher (4.2.0)
   - ObjectMapper (3.4.2)
-  - SwiftLint (0.29.1)
+  - SwiftLint (0.31.0)
 
 DEPENDENCIES:
   - Alamofire
+  - CHIPageControl/Aleppo (= 0.1.6)
   - Crashlytics
   - Fabric
   - Kingfisher (~> 4.2.0)
@@ -18,6 +20,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - CHIPageControl
     - Crashlytics
     - Fabric
     - Kingfisher
@@ -25,13 +28,14 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
-  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  CHIPageControl: 21b85bb8c7d4d1d15fc4f353e1eb095eb75de5f1
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   Kingfisher: 9ee7e788d8ba07c3f21ce0d43f33cec310a4f781
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
-  SwiftLint: 6772320e40b52049053a518c17db9b0634a0b45a
+  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 
-PODFILE CHECKSUM: a08ba64bac46977d962646b42bc68336bdda83bb
+PODFILE CHECKSUM: 6f40e5bb602ecd0c88ff40e1024730dceca23a78
 
 COCOAPODS: 1.5.2

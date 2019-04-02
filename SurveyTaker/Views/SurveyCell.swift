@@ -10,9 +10,9 @@ import UIKit
 import Kingfisher
 
 class SurveyCell: UITableViewCell {
-    @IBOutlet weak var surveyDescriptionLabel: UILabel!
-    @IBOutlet weak var surveyTitleLabel: UILabel!
-    @IBOutlet weak var surveyImageView: UIImageView!
+    @IBOutlet weak private var surveyDescriptionLabel: UILabel!
+    @IBOutlet weak private var surveyTitleLabel: UILabel!
+    @IBOutlet weak private var surveyImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,7 +25,7 @@ class SurveyCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupCell(for survey:Survey) {
+    func setupCell(for survey: Survey) {
         self.surveyTitleLabel.text = survey.title
         self.surveyDescriptionLabel.text = survey.description
         if let urlString = survey.bgImage, let url = URL(string: "\(urlString)l") {

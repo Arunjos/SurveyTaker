@@ -38,14 +38,13 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
             "username": "carlos@nimbl3.com",
             "password": "antikera"
         ]
-        self.getAccessToken(WithURL: Constants.AccessTokenAPIURL, withParams: params, completionHandler: {[unowned self] token in
-            print("hello")
-            print(token?.accessToken)
+        self.getAccessToken(WithURL: Constants.AccessTokenAPIURL,
+                            withParams: params) { [unowned self] token in
             self.fetchSurvey1(witAccessToken: token, forUrl: Constants.SurveyAPIURL)
-        })
+        }
     }
     
-    func fetchSurvey1(witAccessToken accessToken:Token?, forUrl url:String) {
+    func fetchSurvey1(witAccessToken accessToken: Token?, forUrl url: String) {
         self.isSurveyDataLoading.value = true
         var headers: HTTPHeaders = [
             "Content-Type": "application/json",
@@ -54,39 +53,41 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
         if let token = accessToken, let type = token.type, let accessToken = token.accessToken {
             headers["Authorization"] = "\(type) \(accessToken)"
         }
-        Alamofire.request(url, method:.get,parameters:nil, headers: headers).validate(contentType: ["application/json"]).responseJSON { [unowned self] response in
-            self.isSurveyDataLoading.value = false
-            print("kello")
-            print(response)
-            guard let responseArray = response.result.value as? [[String : Any]] else {
-                self.error.value = "Failed to parse code list response"
-                return
+        Alamofire.request(url, method: .get, parameters: nil, headers: headers)
+            .validate(contentType: ["application/json"])
+            .responseJSON { [unowned self] response in
+                self.isSurveyDataLoading.value = false
+                print("kello")
+                print(response)
+                guard let responseArray = response.result.value as? [[String: Any]] else {
+                    self.error.value = "Failed to parse code list response"
+                    return
+                }
+                self.surveyList = Survey.getSurveyListFrom(jsonArray: responseArray)
+                self.noOfSurveys.value = self.surveyList.count
             }
-            self.surveyList = Survey.getSurveyListFrom(jsonArray: responseArray)
-            self.noOfSurveys.value = self.surveyList.count
-        }
     }
     
-    func getAccessToken(WithURL url:String, withParams params:[String:Any], completionHandler:@escaping (Token?)->()) {
+    func getAccessToken(WithURL url: String, withParams params: [String: Any], completionHandler: @escaping (Token?) -> Void) {
         let headers: HTTPHeaders = [
             "Content-Type": "application/x-www-form-urlencoded",
             "Accept": "application/json"
         ]
-        Alamofire.request(url, method:.post,parameters:params, headers: headers).validate(contentType: ["application/json"]).responseJSON { [unowned self] response in
-            self.isSurveyDataLoading.value = false
-            guard let responseObj = response.result.value as? [String : Any] else {
-                self.error.value = "Failed to parse code list response"
-                completionHandler(nil)
-                return
+        Alamofire.request(url, method: .post, parameters: params, headers: headers)
+            .validate(contentType: ["application/json"])
+            .responseJSON { [unowned self] response in
+                self.isSurveyDataLoading.value = false
+                guard let responseObj = response.result.value as? [String: Any] else {
+                    self.error.value = "Failed to parse code list response"
+                    completionHandler(nil)
+                    return
+                }
+                let token = Token.getTokenFrom(jsonObj: responseObj)
+                completionHandler(token)
             }
-            let token = Token.getTokenFrom(jsonObj:responseObj)
-            completionHandler(token)
-        }
     }
     
-    func refreshSurveys(witAccessToken accessToken:String, forUrl url:String) {
+    func refreshSurveys(witAccessToken accessToken: String, forUrl url: String) {
         
     }
-    
-    
 }

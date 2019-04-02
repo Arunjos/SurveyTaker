@@ -8,22 +8,22 @@
 
 import Foundation
 
-class Dynamic<T>{
-    typealias Listener = (T) -> ()
+class Dynamic<T> {
+    typealias Listener = (T) -> Void
     
-    var listeners:[Listener] = []
-    var value:T {
-        didSet{
-            listeners.forEach{
+    var listeners: [Listener] = []
+    var value: T {
+        didSet {
+            listeners.forEach {
                 $0(value)
             }
         }
     }
     
-    init(_ value:T) {
+    init(_ value: T) {
         self.value = value
     }
-    func bind(_ listener: @escaping Listener){
+    func bind(_ listener: @escaping Listener) {
         self.listeners.append(listener)
     }
 }

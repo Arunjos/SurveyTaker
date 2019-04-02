@@ -10,15 +10,15 @@ import Foundation
 import ObjectMapper
 
 public class Survey: Mappable {
-    public var title:String?
-    public var description:String?
-    public var bgImage:String?
+    public var title: String?
+    public var description: String?
+    public var bgImage: String?
     
-    required public init?(map: Map){
+    required public init?(map: Map) {
         
     }
     
-    init(title:String?, description:String?, bgImage:String?) {
+    init(title: String?, description: String?, bgImage: String?) {
         self.title = title
         self.description = description
         self.bgImage = bgImage
@@ -31,8 +31,8 @@ public class Survey: Mappable {
     }
 }
 
-extension Survey {
-    public static func getSurveyListFrom(jsonArray:[[String:Any]]) -> [Survey] {
+public extension Survey {
+    static func getSurveyListFrom(jsonArray: [[String: Any]]) -> [Survey] {
         let surveyList = Mapper<Survey>().mapArray(JSONArray: jsonArray)
         return surveyList
     }

@@ -1,5 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '10.0'
+# ignore all warnings from all pods
+inhibit_all_warnings!
 
 def testing_pods
   # pod for test targets
@@ -14,7 +16,7 @@ target 'SurveyTaker' do
   pod 'ObjectMapper'
   pod 'Kingfisher', '~> 4.2.0'
   pod 'Alamofire'
-  pod 'CHIPageControl'
+  pod 'CHIPageControl/Aleppo', '0.1.6'
 
   target 'SurveyTakerTests' do
     inherit! :search_paths
