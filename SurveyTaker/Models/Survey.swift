@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-public class Survey: Mappable {
+public class Survey: Mappable, Equatable {
     public var title: String?
     public var description: String?
     public var bgImage: String?
@@ -35,5 +35,12 @@ public extension Survey {
     static func getSurveyListFrom(jsonArray: [[String: Any]]) -> [Survey] {
         let surveyList = Mapper<Survey>().mapArray(JSONArray: jsonArray)
         return surveyList
+    }
+    
+    static func == (lhs: Survey, rhs: Survey) -> Bool {
+        if lhs.title == rhs.title && lhs.description == rhs.description && lhs.bgImage == rhs.bgImage {
+            return true
+        }
+        return false
     }
 }

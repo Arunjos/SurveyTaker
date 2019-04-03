@@ -12,7 +12,8 @@ import OHHTTPStubs
 @testable import SurveyTaker_Debug
 
 class SurveyViewModelFromSurvey: XCTestCase {
-    let viewModel = SurveyTaker_Debug.SurveyViewModelFromSurvey()
+    var viewModel: SurveyTaker_Debug.SurveyViewModelFromSurvey?
+    var jsonStub: OHHTTPStubsDescriptor?
     var params = [String: Any]()
     override func setUp() {
         super.setUp()
@@ -21,10 +22,13 @@ class SurveyViewModelFromSurvey: XCTestCase {
             "page": 1,
             "per_page": 6
         ]
+        viewModel = SurveyTaker_Debug.SurveyViewModelFromSurvey()
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        params = [:]
+        viewModel = nil
+        uninstallJSONStub()
         super.tearDown()
     }
     
@@ -37,20 +41,39 @@ class SurveyViewModelFromSurvey: XCTestCase {
         }
         
         self.getAccessToken { [unowned self] token in
-            self.viewModel.getSurveyList(witAccessToken: token,
-                                         withParams: self.params,
-                                         forUrl: Constants.SurveyAPIURL,
-                                         completionHandler: surveysListFetchCompletionHanlder )
+            self.viewModel?.getSurveyList(witAccessToken: token,
+                                          withParams: self.params,
+                                          forUrl: Constants.SurveyAPIURL,
+                                          completionHandler: surveysListFetchCompletionHanlder )
         }
         
         waitForExpectations(timeout: 5, handler: nil)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testGetSurveyListFirstValue() {
+        
+        let testSurvey = Survey(title: "Scarlett Bangkok",
+                                description: "We'd love ot hear from you!",
+                                bgImage: "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_")
+        let promise = expectation(description: "Succefully fetch first survey through API")
+        let surveysListFetchCompletionHanlder: ([Survey]) -> Void = { prefetchedSurveyList in
+            let firstSurvey = prefetchedSurveyList[0]
+            XCTAssertTrue(firstSurvey == testSurvey)
+            promise.fulfill()
         }
+        
+        self.getAccessToken { [unowned self] token in
+            self.viewModel?.getSurveyList(witAccessToken: token,
+                                          withParams: self.params,
+                                          forUrl: Constants.SurveyAPIURL,
+                                          completionHandler: surveysListFetchCompletionHanlder )
+        }
+        
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+    
+    func testfetchSurveys() {
+        
     }
     
     private func getAccessToken(completionHandler: @escaping (Token?) -> Void) {
@@ -80,11 +103,18 @@ class SurveyViewModelFromSurvey: XCTestCase {
         guard let stubPath = OHPathForFile("test_survey_list_count.json", type(of: self)) else {
             return
         }
-        let textStub = stub(condition: isExtension("json") && isHost("nimble-survey-api.herokuapp.com")) {_ in
+        jsonStub = stub(condition: isExtension("json") && isHost("nimble-survey-api.herokuapp.com")) {_ in
             return fixture(filePath: stubPath, headers: ["Content-Type": "application/json"])
                 .requestTime(0.0, responseTime: OHHTTPStubsDownloadSpeedWifi)
         }
-        textStub.name = "Survey JSON stub"
+        jsonStub?.name = "Survey JSON stub"
+    }
+    
+    
+    func uninstallJSONStub() {
+        if let jsonStub = jsonStub {
+            OHHTTPStubs.removeStub(jsonStub)
+        }
     }
     
 }

@@ -38,7 +38,6 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
     }
     
     func fetchSurveys() {
-        
         self.page += 1
         isSurveyDataLoading.value = true
         let surveysListFetchCompletionHanlder: ([Survey]) -> Void = {prefetchedSurveyList in
