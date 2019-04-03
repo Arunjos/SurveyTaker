@@ -21,6 +21,8 @@ target 'SurveyTaker' do
   target 'SurveyTakerTests' do
     inherit! :search_paths
     testing_pods
+    pod 'OHHTTPStubs'
+    pod 'OHHTTPStubs/Swift'
   end
 
   target 'SurveyTakerUITests' do
