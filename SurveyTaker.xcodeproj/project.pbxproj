@@ -198,9 +198,8 @@
 		2128123A206B5C18003BB865 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DC621E0C225460D50093B5F1 /* SurveyCell */,
 				DC0A728C224F5F94005D307E /* Survey.storyboard */,
-				DC3D918C225158CF009DA2F9 /* SurveyCell.swift */,
-				DC3D918D225158CF009DA2F9 /* SurveyCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -278,6 +277,15 @@
 				DC5D894A2250F720000E9C37 /* SurveyViewModelFromSurvey.swift */,
 			);
 			path = ViewModelController;
+			sourceTree = "<group>";
+		};
+		DC621E0C225460D50093B5F1 /* SurveyCell */ = {
+			isa = PBXGroup;
+			children = (
+				DC3D918C225158CF009DA2F9 /* SurveyCell.swift */,
+				DC3D918D225158CF009DA2F9 /* SurveyCell.xib */,
+			);
+			path = SurveyCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

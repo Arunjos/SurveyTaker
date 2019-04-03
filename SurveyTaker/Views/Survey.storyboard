@@ -43,12 +43,17 @@
                                     <outlet property="delegate" destination="ar3-gI-PbG" id="g0x-V0-eXF"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iz2-Pj-YCj">
+                                <rect key="frame" x="177.5" y="355.5" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="XVc-f3-wz6" firstAttribute="top" secondItem="M4E-oH-8ZD" secondAttribute="top" id="1TB-PK-qNU"/>
                             <constraint firstItem="XVc-f3-wz6" firstAttribute="leading" secondItem="M4E-oH-8ZD" secondAttribute="leading" id="AVr-St-Lhv"/>
+                            <constraint firstItem="iz2-Pj-YCj" firstAttribute="centerY" secondItem="M4E-oH-8ZD" secondAttribute="centerY" id="Hj6-hE-iBp"/>
                             <constraint firstItem="M4E-oH-8ZD" firstAttribute="trailing" secondItem="XVc-f3-wz6" secondAttribute="trailing" id="c0d-wH-sIx"/>
+                            <constraint firstItem="iz2-Pj-YCj" firstAttribute="centerX" secondItem="M4E-oH-8ZD" secondAttribute="centerX" id="lAM-Qk-o9S"/>
                             <constraint firstItem="M4E-oH-8ZD" firstAttribute="bottom" secondItem="XVc-f3-wz6" secondAttribute="bottom" id="rAq-zO-jyu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="M4E-oH-8ZD"/>
@@ -56,12 +61,16 @@
                     <navigationItem key="navigationItem" title="SURVEYS" id="CkR-hu-FUf">
                         <barButtonItem key="leftBarButtonItem" image="refresh" id="1tM-DC-sWt">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="refreshButtonClicked:" destination="ar3-gI-PbG" id="pJa-6v-igD"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="toogle" id="vl6-te-8Bl">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="iz2-Pj-YCj" id="iAp-AT-3a6"/>
                         <outlet property="surveyTableView" destination="XVc-f3-wz6" id="cnx-bP-jo4"/>
                     </connections>
                 </viewController>

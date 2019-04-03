@@ -16,9 +16,10 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
     var isSurveyDataLoading: Dynamic<Bool>
     var error: Dynamic<String>
     
-    var page = 1
-    var pageCount = 10
+    var page = 0
+    var pageCount = 6
     var surveyList = [Survey]()
+    var prefetchedSurveyIndexpaths = [IndexPath]()
     
     init() {
         isOffline = Dynamic(false)
@@ -31,8 +32,28 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
         return surveyList[indexpath.row]
     }
     
-    func fetchSurvey() {
-        print("ARunnsss test")
+    func getPrefectchedIndexPaths() -> [IndexPath] {
+        print("indexpaths", self.prefetchedSurveyIndexpaths)
+        return self.prefetchedSurveyIndexpaths
+    }
+    
+    func fetchSurveys() {
+        
+        self.page += 1
+        isSurveyDataLoading.value = true
+        let surveysListFetchCompletionHanlder: ([Survey]) -> Void = {prefetchedSurveyList in
+            let lowerBound = self.surveyList.count
+            let upperBound = lowerBound + prefetchedSurveyList.count
+            self.prefetchedSurveyIndexpaths = (lowerBound ..< upperBound).flatMap { row -> ([IndexPath]) in
+                return [IndexPath(row: row, section: 0)]
+            }
+            if !prefetchedSurveyList.isEmpty {
+                self.surveyList.append(contentsOf: prefetchedSurveyList)
+                self.noOfSurveys.value = self.surveyList.count
+            }
+            self.isSurveyDataLoading.value = false
+        }
+        
         let params = [
             "grant_type": "password",
             "username": "carlos@nimbl3.com",
@@ -40,11 +61,18 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
         ]
         self.getAccessToken(WithURL: Constants.AccessTokenAPIURL,
                             withParams: params) { [unowned self] token in
-            self.fetchSurvey1(witAccessToken: token, forUrl: Constants.SurveyAPIURL)
+                                let params = [
+                                    "page": self.page,
+                                    "per_page": self.pageCount
+                                ]
+                                self.getSurveyList(witAccessToken: token,
+                                                   withParams: params,
+                                                   forUrl: Constants.SurveyAPIURL,
+                                                   completionHandler: surveysListFetchCompletionHanlder )
         }
     }
     
-    func fetchSurvey1(witAccessToken accessToken: Token?, forUrl url: String) {
+    func getSurveyList(witAccessToken accessToken: Token?, withParams param: [String: Any], forUrl url: String, completionHandler: @escaping ([Survey]) -> Void) {
         self.isSurveyDataLoading.value = true
         var headers: HTTPHeaders = [
             "Content-Type": "application/json",
@@ -53,18 +81,21 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
         if let token = accessToken, let type = token.type, let accessToken = token.accessToken {
             headers["Authorization"] = "\(type) \(accessToken)"
         }
-        Alamofire.request(url, method: .get, parameters: nil, headers: headers)
+        Alamofire.request(url, method: .get, parameters: param, headers: headers)
             .validate(contentType: ["application/json"])
             .responseJSON { [unowned self] response in
                 self.isSurveyDataLoading.value = false
-                print("kello")
-                print(response)
-                guard let responseArray = response.result.value as? [[String: Any]] else {
-                    self.error.value = "Failed to parse code list response"
+                if let error = response.result.error {
+                    self.error.value = error.localizedDescription
+                    completionHandler([])
                     return
                 }
-                self.surveyList = Survey.getSurveyListFrom(jsonArray: responseArray)
-                self.noOfSurveys.value = self.surveyList.count
+                guard let responseArray = response.result.value as? [[String: Any]] else {
+                    completionHandler([])
+                    return
+                }
+                let surveyList = Survey.getSurveyListFrom(jsonArray: responseArray)
+                completionHandler(surveyList)
             }
     }
     
@@ -77,8 +108,12 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
             .validate(contentType: ["application/json"])
             .responseJSON { [unowned self] response in
                 self.isSurveyDataLoading.value = false
+                if let error = response.result.error {
+                    self.error.value = error.localizedDescription
+                    completionHandler(nil)
+                    return
+                }
                 guard let responseObj = response.result.value as? [String: Any] else {
-                    self.error.value = "Failed to parse code list response"
                     completionHandler(nil)
                     return
                 }
@@ -87,7 +122,10 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
             }
     }
     
-    func refreshSurveys(witAccessToken accessToken: String, forUrl url: String) {
-        
+    func refreshSurveys() {
+        self.page = 0
+        self.surveyList.removeAll()
+        self.noOfSurveys.value = 0
+        self.fetchSurveys()
     }
 }

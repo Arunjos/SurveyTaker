@@ -15,7 +15,7 @@ protocol SurveyViewModel {
     var error: Dynamic<String> { get }
     
     func getSurveyDetail(atIndex indexpath: IndexPath) -> Survey?
-    func fetchSurvey()
-//    func fetchSurvey(witAccessToken accessToken:String, forUrl url:String)
-    func refreshSurveys(witAccessToken accessToken: String, forUrl url: String)
+    func getPrefectchedIndexPaths() -> [IndexPath]
+    func fetchSurveys()
+    func refreshSurveys()
 }
