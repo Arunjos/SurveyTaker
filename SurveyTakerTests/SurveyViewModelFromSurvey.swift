@@ -14,10 +14,12 @@ import OHHTTPStubs
 class SurveyViewModelFromSurvey: XCTestCase {
     var viewModel: SurveyTaker_Debug.SurveyViewModelFromSurvey?
     var jsonStub: OHHTTPStubsDescriptor?
+    var accessStub: OHHTTPStubsDescriptor?
     var params = [String: Any]()
     override func setUp() {
         super.setUp()
         self.installJSONStub()
+        self.installAccessTokenStub()
         params = [
             "page": 1,
             "per_page": 6
@@ -29,6 +31,7 @@ class SurveyViewModelFromSurvey: XCTestCase {
         params = [:]
         viewModel = nil
         uninstallJSONStub()
+        uninstallAccessTokenStub()
         super.tearDown()
     }
     
@@ -73,7 +76,13 @@ class SurveyViewModelFromSurvey: XCTestCase {
     }
     
     func testfetchSurveys() {
-        
+        let promise = expectation(description: "Succefully completed fetchSurveys")
+        viewModel?.noOfSurveys.bind { count in
+            XCTAssertTrue(count == 6)
+            promise.fulfill()
+        }
+        viewModel?.fetchSurveys()
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     private func getAccessToken(completionHandler: @escaping (Token?) -> Void) {
@@ -110,10 +119,26 @@ class SurveyViewModelFromSurvey: XCTestCase {
         jsonStub?.name = "Survey JSON stub"
     }
     
-    
     func uninstallJSONStub() {
         if let jsonStub = jsonStub {
             OHHTTPStubs.removeStub(jsonStub)
+        }
+    }
+    
+    func installAccessTokenStub() {
+        guard let stubPath = OHPathForFile("test_access_token.json", type(of: self)) else {
+            return
+        }
+        accessStub = stub(condition: isMethodPOST() && isHost("nimble-survey-api.herokuapp.com")) {_ in
+            return fixture(filePath: stubPath, headers: ["Content-Type": "application/json"])
+                .requestTime(0.0, responseTime: OHHTTPStubsDownloadSpeedWifi)
+        }
+        accessStub?.name = "Survey Access Token stub"
+    }
+    
+    func uninstallAccessTokenStub() {
+        if let accessStub = accessStub {
+            OHHTTPStubs.removeStub(accessStub)
         }
     }
     

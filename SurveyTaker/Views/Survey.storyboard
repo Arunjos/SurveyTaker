@@ -83,11 +83,39 @@
                         <outlet property="activityIndicator" destination="iz2-Pj-YCj" id="iAp-AT-3a6"/>
                         <outlet property="pageControl" destination="hkD-oc-fmg" id="Cag-88-uJ0"/>
                         <outlet property="surveyTableView" destination="XVc-f3-wz6" id="cnx-bP-jo4"/>
+                        <segue destination="1Dr-JU-sga" kind="show" identifier="takeSurveySegueID" id="I5R-a0-0IP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pVb-PP-Sam" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-170.40000000000001" y="-135.38230884557723"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="db7-md-Bgs">
+            <objects>
+                <viewController id="1Dr-JU-sga" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xIs-WT-ODb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take Survey Screen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcL-bb-xk1">
+                                <rect key="frame" x="70.5" y="349" width="235" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="gcL-bb-xk1" firstAttribute="centerY" secondItem="FBk-PX-rMc" secondAttribute="centerY" id="PPj-os-nak"/>
+                            <constraint firstItem="gcL-bb-xk1" firstAttribute="centerX" secondItem="FBk-PX-rMc" secondAttribute="centerX" id="fGb-6w-oy2"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="FBk-PX-rMc"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bax-ZU-qwX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="586.39999999999998" y="-130.88455772113943"/>
         </scene>
     </scenes>
     <resources>

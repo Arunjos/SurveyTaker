@@ -24,6 +24,7 @@
 		DC5D895122514036000E9C37 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5D895022514036000E9C37 /* Token.swift */; };
 		DC621E0E22553A3A0093B5F1 /* SurveyViewModelFromSurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC621E0D22553A3A0093B5F1 /* SurveyViewModelFromSurvey.swift */; };
 		DC621F25225546FC0093B5F1 /* test_survey_list_count.json in Resources */ = {isa = PBXBuildFile; fileRef = DC621F24225546FB0093B5F1 /* test_survey_list_count.json */; };
+		DC621F4122555B730093B5F1 /* test_access_token.json in Resources */ = {isa = PBXBuildFile; fileRef = DC621F3822555B720093B5F1 /* test_access_token.json */; };
 		E16B8455CB1C17718ABA88D9 /* Pods_SurveyTakerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30D6B2F243C94CB20C2B7C74 /* Pods_SurveyTakerTests.framework */; };
 		F7D8D1535C982B8B67538C39 /* Pods_SurveyTaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B34BA5F2993B009E99999FA0 /* Pods_SurveyTaker.framework */; };
 /* End PBXBuildFile section */
@@ -334,6 +335,7 @@
 		DC621F0A22553C620093B5F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC621F0B22553C620093B5F1 /* Podfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
 		DC621F24225546FB0093B5F1 /* test_survey_list_count.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_survey_list_count.json; sourceTree = "<group>"; };
+		DC621F3822555B720093B5F1 /* test_access_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_access_token.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1163,6 +1165,7 @@
 		DC621F232255467C0093B5F1 /* Stubs */ = {
 			isa = PBXGroup;
 			children = (
+				DC621F3822555B720093B5F1 /* test_access_token.json */,
 				DC621F24225546FB0093B5F1 /* test_survey_list_count.json */,
 			);
 			path = Stubs;
@@ -1365,6 +1368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC621F25225546FC0093B5F1 /* test_survey_list_count.json in Resources */,
+				DC621F4122555B730093B5F1 /* test_access_token.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -109,6 +109,10 @@ class SurveyViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SurveyCellID, for: indexPath) as? SurveyCell
         let surveyDetail = viewModel.getSurveyDetail(atIndex: indexPath)
         if let survey = surveyDetail {
+            cell?.surveyTapCallBack = { [unowned self] in
+                print(indexPath)
+                self.performSegue(withIdentifier: "takeSurveySegueID", sender: nil)
+            }
             cell?.setupCell(for: survey)
         }
         return cell ?? UITableViewCell()

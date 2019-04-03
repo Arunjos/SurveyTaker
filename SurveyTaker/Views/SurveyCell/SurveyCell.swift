@@ -13,6 +13,8 @@ class SurveyCell: UITableViewCell {
     @IBOutlet weak private var surveyDescriptionLabel: UILabel!
     @IBOutlet weak private var surveyTitleLabel: UILabel!
     @IBOutlet weak private var surveyImageView: UIImageView!
+
+    var surveyTapCallBack: (() -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,6 +32,12 @@ class SurveyCell: UITableViewCell {
         self.surveyDescriptionLabel.text = survey.description
         if let urlString = survey.bgImage, let url = URL(string: "\(urlString)l") {
             self.surveyImageView.kf.setImage(with: url)
+        }
+    }
+    
+    @IBAction private func takeSurveyButtonClicked(sender: AnyObject) {
+        if let callBack = self.surveyTapCallBack {
+            callBack()
         }
     }
 }
