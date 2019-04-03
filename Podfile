@@ -1,5 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '10.0'
+# ignore all warnings from all pods
+inhibit_all_warnings!
 
 def testing_pods
   # pod for test targets
@@ -11,10 +13,16 @@ target 'SurveyTaker' do
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'SwiftLint'
+  pod 'ObjectMapper'
+  pod 'Kingfisher', '~> 4.2.0'
+  pod 'Alamofire'
+  pod 'CHIPageControl/Aleppo', '0.1.6'
 
   target 'SurveyTakerTests' do
     inherit! :search_paths
     testing_pods
+    pod 'OHHTTPStubs'
+    pod 'OHHTTPStubs/Swift'
   end
 
   target 'SurveyTakerUITests' do
@@ -38,5 +46,10 @@ post_install do |installer|
         config.build_settings['SWIFT_VERSION'] = '4.0'
       end
     end
+  end
+  installer.pods_project.build_configurations.each do |config|
+      config.build_settings.delete('CODE_SIGNING_ALLOWED')
+      config.build_settings.delete('CODE_SIGNING_REQUIRED')
+      config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
   end
 end
