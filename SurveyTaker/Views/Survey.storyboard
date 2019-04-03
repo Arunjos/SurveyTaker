@@ -46,12 +46,22 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iz2-Pj-YCj">
                                 <rect key="frame" x="177.5" y="355.5" width="20" height="20"/>
                             </activityIndicatorView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hkD-oc-fmg" customClass="CHIPageControlAleppo" customModule="CHIPageControl">
+                                <rect key="frame" x="315" y="355.5" width="60" height="20"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="3Yu-sM-iWH"/>
+                                    <constraint firstAttribute="height" constant="20" id="leS-fU-MWa"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="XVc-f3-wz6" firstAttribute="top" secondItem="M4E-oH-8ZD" secondAttribute="top" id="1TB-PK-qNU"/>
                             <constraint firstItem="XVc-f3-wz6" firstAttribute="leading" secondItem="M4E-oH-8ZD" secondAttribute="leading" id="AVr-St-Lhv"/>
                             <constraint firstItem="iz2-Pj-YCj" firstAttribute="centerY" secondItem="M4E-oH-8ZD" secondAttribute="centerY" id="Hj6-hE-iBp"/>
+                            <constraint firstItem="hkD-oc-fmg" firstAttribute="centerY" secondItem="M4E-oH-8ZD" secondAttribute="centerY" id="Rfk-5e-6Qb"/>
+                            <constraint firstItem="M4E-oH-8ZD" firstAttribute="trailing" secondItem="hkD-oc-fmg" secondAttribute="trailing" id="TBK-qj-iU0"/>
                             <constraint firstItem="M4E-oH-8ZD" firstAttribute="trailing" secondItem="XVc-f3-wz6" secondAttribute="trailing" id="c0d-wH-sIx"/>
                             <constraint firstItem="iz2-Pj-YCj" firstAttribute="centerX" secondItem="M4E-oH-8ZD" secondAttribute="centerX" id="lAM-Qk-o9S"/>
                             <constraint firstItem="M4E-oH-8ZD" firstAttribute="bottom" secondItem="XVc-f3-wz6" secondAttribute="bottom" id="rAq-zO-jyu"/>
@@ -71,6 +81,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="iz2-Pj-YCj" id="iAp-AT-3a6"/>
+                        <outlet property="pageControl" destination="hkD-oc-fmg" id="Cag-88-uJ0"/>
                         <outlet property="surveyTableView" destination="XVc-f3-wz6" id="cnx-bP-jo4"/>
                     </connections>
                 </viewController>

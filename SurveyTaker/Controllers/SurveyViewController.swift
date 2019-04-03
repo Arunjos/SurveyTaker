@@ -11,10 +11,10 @@ import CHIPageControl
 
 class SurveyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
+    @IBOutlet private var pageControl: CHIPageControlAleppo!
     @IBOutlet weak private var surveyTableView: UITableView!
     @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
     var viewModel: SurveyViewModel = SurveyViewModelFromSurvey()
-    var pageControl = CHIPageControlAleppo()
     var lastVisibilCellIndexPath = IndexPath(row: 0, section: 0)
     
     override func viewDidLoad() {
@@ -37,9 +37,8 @@ class SurveyViewController: UIViewController, UITableViewDelegate, UITableViewDa
         surveyTableView.register(UINib(nibName: "SurveyCell",
                                        bundle: nil),
                                  forCellReuseIdentifier: Constants.SurveyCellID)
-        pageControl.frame = CGRect(x: self.view.frame.width - 70, y: self.view.frame.height / 2, width: 100, height: 20)
+        // Configure page control
         pageControl.transform = pageControl.transform.rotated(by: .pi / 2)
-        self.view.addSubview(pageControl)
     }
     
     func setupViewModel() {

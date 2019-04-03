@@ -47,4 +47,9 @@ post_install do |installer|
       end
     end
   end
+  installer.pods_project.build_configurations.each do |config|
+      config.build_settings.delete('CODE_SIGNING_ALLOWED')
+      config.build_settings.delete('CODE_SIGNING_REQUIRED')
+      config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
+  end
 end
