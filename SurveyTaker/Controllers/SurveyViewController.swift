@@ -34,6 +34,7 @@ class SurveyViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.surveyTableView.isHidden = true
         surveyTableView.dataSource = self
         surveyTableView.delegate = self
+        
         surveyTableView.register(UINib(nibName: "SurveyCell",
                                        bundle: nil),
                                  forCellReuseIdentifier: Constants.SurveyCellID)
@@ -48,6 +49,7 @@ class SurveyViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 if rowCount != 0 {
                     let currentSelectdPage = self.pageControl.currentPage
                     //Add new survey cells
+                    self.surveyTableView.setContentOffset(self.surveyTableView.contentOffset, animated: false)
                     self.surveyTableView.insertRows(at: self.viewModel.getPrefectchedIndexPaths(), with: .none)
                     // Update page controller
                     self.updatePageController(WithCount: self.viewModel.noOfSurveys.value,
@@ -110,7 +112,6 @@ class SurveyViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let surveyDetail = viewModel.getSurveyDetail(atIndex: indexPath)
         if let survey = surveyDetail {
             cell?.surveyTapCallBack = { [unowned self] in
-                print(indexPath)
                 self.performSegue(withIdentifier: "takeSurveySegueID", sender: nil)
             }
             cell?.setupCell(for: survey)
@@ -148,5 +149,4 @@ class SurveyViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.viewModel.fetchSurveys()
         }
     }
-
 }

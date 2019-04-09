@@ -8,18 +8,15 @@
 
 import XCTest
 import Alamofire
-import OHHTTPStubs
 @testable import SurveyTaker_Debug
 
 class SurveyViewModelFromSurvey: XCTestCase {
     var viewModel: SurveyTaker_Debug.SurveyViewModelFromSurvey?
-    var jsonStub: OHHTTPStubsDescriptor?
-    var accessStub: OHHTTPStubsDescriptor?
     var params = [String: Any]()
     override func setUp() {
         super.setUp()
-        self.installJSONStub()
-        self.installAccessTokenStub()
+        StubHandler.installJSONStub()
+        StubHandler.installAccessTokenStub()
         params = [
             "page": 1,
             "per_page": 6
@@ -30,48 +27,42 @@ class SurveyViewModelFromSurvey: XCTestCase {
     override func tearDown() {
         params = [:]
         viewModel = nil
-        uninstallJSONStub()
-        uninstallAccessTokenStub()
+        StubHandler.uninstallJSONStub()
+        StubHandler.uninstallAccessTokenStub()
         super.tearDown()
     }
     
-    func testGetSurveyListCount() {
-        
-        let promise = expectation(description: "Succefully fetch survey through API")
-        let surveysListFetchCompletionHanlder: ([Survey]) -> Void = { prefetchedSurveyList in
-            XCTAssertTrue(prefetchedSurveyList.count == 6)
-            promise.fulfill()
-        }
-        
-        self.getAccessToken { [unowned self] token in
-            self.viewModel?.getSurveyList(witAccessToken: token,
-                                          withParams: self.params,
-                                          forUrl: Constants.SurveyAPIURL,
-                                          completionHandler: surveysListFetchCompletionHanlder )
-        }
-        
-        waitForExpectations(timeout: 5, handler: nil)
-    }
+//    func testGetSurveyListCount() {
+//
+//        let promise = expectation(description: "Succefully fetch survey through API")
+//        let surveysListFetchCompletionHanlder: ([Survey]) -> Void = { prefetchedSurveyList in
+//            XCTAssertTrue(prefetchedSurveyList.count == 6)
+//            promise.fulfill()
+//        }
+//
+//        self.getAccessToken { [unowned self] token in
+//            self.viewModel?.getSurveyList(witAccessToken: token,
+//                                          withParams: self.params,
+//                                          forUrl: Constants.SurveyAPIURL,
+//                                          completionHandler: surveysListFetchCompletionHanlder )
+//        }
+//
+//        waitForExpectations(timeout: 5, handler: nil)
+//    }
     
-    func testGetSurveyListFirstValue() {
+    func testfetchSurveysFirstValue() {
         
         let testSurvey = Survey(title: "Scarlett Bangkok",
                                 description: "We'd love ot hear from you!",
                                 bgImage: "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_")
-        let promise = expectation(description: "Succefully fetch first survey through API")
-        let surveysListFetchCompletionHanlder: ([Survey]) -> Void = { prefetchedSurveyList in
-            let firstSurvey = prefetchedSurveyList[0]
+        
+        let promise = expectation(description: "Succefully completed fetchSurveys")
+        viewModel?.noOfSurveys.bind { [unowned self] _ in
+            let firstSurvey = self.viewModel?.prefetchedSurveyList[0]
             XCTAssertTrue(firstSurvey == testSurvey)
             promise.fulfill()
         }
-        
-        self.getAccessToken { [unowned self] token in
-            self.viewModel?.getSurveyList(witAccessToken: token,
-                                          withParams: self.params,
-                                          forUrl: Constants.SurveyAPIURL,
-                                          completionHandler: surveysListFetchCompletionHanlder )
-        }
-        
+        viewModel?.fetchSurveys()
         waitForExpectations(timeout: 5, handler: nil)
     }
     
@@ -106,40 +97,6 @@ class SurveyViewModelFromSurvey: XCTestCase {
                 let token = Token.getTokenFrom(jsonObj: responseObj)
                 completionHandler(token)
             }
-    }
-    
-    func installJSONStub() {
-        guard let stubPath = OHPathForFile("test_survey_list_count.json", type(of: self)) else {
-            return
-        }
-        jsonStub = stub(condition: isExtension("json") && isHost("nimble-survey-api.herokuapp.com")) {_ in
-            return fixture(filePath: stubPath, headers: ["Content-Type": "application/json"])
-                .requestTime(0.0, responseTime: OHHTTPStubsDownloadSpeedWifi)
-        }
-        jsonStub?.name = "Survey JSON stub"
-    }
-    
-    func uninstallJSONStub() {
-        if let jsonStub = jsonStub {
-            OHHTTPStubs.removeStub(jsonStub)
-        }
-    }
-    
-    func installAccessTokenStub() {
-        guard let stubPath = OHPathForFile("test_access_token.json", type(of: self)) else {
-            return
-        }
-        accessStub = stub(condition: isMethodPOST() && isHost("nimble-survey-api.herokuapp.com")) {_ in
-            return fixture(filePath: stubPath, headers: ["Content-Type": "application/json"])
-                .requestTime(0.0, responseTime: OHHTTPStubsDownloadSpeedWifi)
-        }
-        accessStub?.name = "Survey Access Token stub"
-    }
-    
-    func uninstallAccessTokenStub() {
-        if let accessStub = accessStub {
-            OHHTTPStubs.removeStub(accessStub)
-        }
     }
     
 }

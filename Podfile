@@ -15,7 +15,7 @@ target 'SurveyTaker' do
   pod 'SwiftLint'
   pod 'ObjectMapper'
   pod 'Kingfisher', '~> 4.2.0'
-  pod 'Alamofire'
+  pod 'Moya'
   pod 'CHIPageControl/Aleppo', '0.1.6'
 
   target 'SurveyTakerTests' do

@@ -15,6 +15,13 @@ public class Token: Mappable {
     public var expiresIn: Int?
     public var createdAt: Int?
     
+    public init(accessToken: String, type: String, expiresIn: Int, createdAt: Int) {
+        self.accessToken = accessToken
+        self.type = type
+        self.expiresIn = expiresIn
+        self.createdAt = createdAt
+    }
+    
     required public init?(map: Map) {
         
     }
