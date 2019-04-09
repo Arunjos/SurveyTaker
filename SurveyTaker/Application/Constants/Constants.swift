@@ -19,6 +19,8 @@ struct Constants {
         public static let ExpiresIn = "expires_in"
         public static let CreatedAt = "created_at"
     }
+    
+    public static let SurveyTakerBaseURL = URL(string: "https://nimble-survey-api.herokuapp.com")!
     public static let SurveyAPIURL = "https://nimble-survey-api.herokuapp.com/surveys.json"
     public static let AccessTokenAPIURL = "https://nimble-survey-api.herokuapp.com/oauth/token"
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Moya
 import Alamofire
 
 class SurveyViewModelFromSurvey: SurveyViewModel {
@@ -21,6 +22,27 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
     var surveyList = [Survey]()
     var prefetchedSurveyIndexpaths = [IndexPath]()
     
+    private let tokenFetcher = MoyaProvider<TokenFetcher>()
+    private let surveyFetcher = MoyaProvider<SurveyFetcher>()
+    
+    var prefetchedSurveyList = [Survey]() {
+        didSet {
+//            if prefetchedSurveyList.isEmpty {
+//                return
+//            }
+            let lowerBound = self.surveyList.count
+            let upperBound = lowerBound + prefetchedSurveyList.count
+            self.prefetchedSurveyIndexpaths = (lowerBound ..< upperBound).flatMap { row -> ([IndexPath]) in
+                return [IndexPath(row: row, section: 0)]
+            }
+            if !prefetchedSurveyList.isEmpty {
+                self.surveyList.append(contentsOf: prefetchedSurveyList)
+            }
+            self.noOfSurveys.value = self.surveyList.count
+            self.isSurveyDataLoading.value = false
+        }
+    }
+    
     init() {
         isOffline = Dynamic(false)
         isSurveyDataLoading = Dynamic(false)
@@ -33,92 +55,53 @@ class SurveyViewModelFromSurvey: SurveyViewModel {
     }
     
     func getPrefectchedIndexPaths() -> [IndexPath] {
-        print("indexpaths", self.prefetchedSurveyIndexpaths)
         return self.prefetchedSurveyIndexpaths
     }
     
     func fetchSurveys() {
         self.page += 1
         isSurveyDataLoading.value = true
-        let surveysListFetchCompletionHanlder: ([Survey]) -> Void = {prefetchedSurveyList in
-            let lowerBound = self.surveyList.count
-            let upperBound = lowerBound + prefetchedSurveyList.count
-            self.prefetchedSurveyIndexpaths = (lowerBound ..< upperBound).flatMap { row -> ([IndexPath]) in
-                return [IndexPath(row: row, section: 0)]
+        
+        let surveyFetchompletionHandler: Completion = { [unowned self] response in
+            switch response {
+            case .success(let result):
+                do {
+                    let jsonObject = try JSONSerialization.jsonObject(with: result.data, options: [])
+                    guard let responseArray = jsonObject as? [[String: Any]] else {
+                        self.error.value = "Failed to fetch surveys"
+                        return
+                    }
+                    self.prefetchedSurveyList = Survey.getSurveyListFrom(jsonArray: responseArray)
+                } catch {
+                    self.prefetchedSurveyList = []
+                }
+            case .failure(let error):
+                self.error.value = error.localizedDescription
             }
-            if !prefetchedSurveyList.isEmpty {
-                self.surveyList.append(contentsOf: prefetchedSurveyList)
-                self.noOfSurveys.value = self.surveyList.count
-            }
-            self.isSurveyDataLoading.value = false
         }
         
-        let params = [
-            "grant_type": "password",
-            "username": "carlos@nimbl3.com",
-            "password": "antikera"
-        ]
-        self.getAccessToken(WithURL: Constants.AccessTokenAPIURL,
-                            withParams: params) { [unowned self] token in
-                                let params = [
-                                    "page": self.page,
-                                    "per_page": self.pageCount
-                                ]
-                                self.getSurveyList(witAccessToken: token,
-                                                   withParams: params,
-                                                   forUrl: Constants.SurveyAPIURL,
-                                                   completionHandler: surveysListFetchCompletionHanlder )
-        }
-    }
-    
-    func getSurveyList(witAccessToken accessToken: Token?, withParams param: [String: Any], forUrl url: String, completionHandler: @escaping ([Survey]) -> Void) {
-        self.isSurveyDataLoading.value = true
-        var headers: HTTPHeaders = [
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        ]
-        if let token = accessToken, let type = token.type, let accessToken = token.accessToken {
-            headers["Authorization"] = "\(type) \(accessToken)"
-        }
-        Alamofire.request(url, method: .get, parameters: param, headers: headers)
-            .validate(contentType: ["application/json"])
-            .responseJSON { [unowned self] response in
-                self.isSurveyDataLoading.value = false
-                if let error = response.result.error {
+        let tokenFetchCompletionHandler: Completion = { [unowned self] response in
+            switch response {
+            case .success(let result):
+                do {
+                    let jsonObject = try JSONSerialization.jsonObject(with: result.data, options: [])
+                    guard let responseDict = jsonObject as? [String: Any] else {
+                        self.error.value = "Failed to fetch token"
+                        return
+                    }
+                    let token = Token.getTokenFrom(jsonObj: responseDict)
+                    self.surveyFetcher.request(.surveys(page: self.page,
+                                                        pageCount: self.pageCount,
+                                                        token: token),
+                                               completion: surveyFetchompletionHandler)
+                } catch {
                     self.error.value = error.localizedDescription
-                    completionHandler([])
-                    return
                 }
-                guard let responseArray = response.result.value as? [[String: Any]] else {
-                    completionHandler([])
-                    return
-                }
-                let surveyList = Survey.getSurveyListFrom(jsonArray: responseArray)
-                completionHandler(surveyList)
+            case .failure: break
             }
-    }
-    
-    func getAccessToken(WithURL url: String, withParams params: [String: Any], completionHandler: @escaping (Token?) -> Void) {
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Accept": "application/json"
-        ]
-        Alamofire.request(url, method: .post, parameters: params, headers: headers)
-            .validate(contentType: ["application/json"])
-            .responseJSON { [unowned self] response in
-                self.isSurveyDataLoading.value = false
-                if let error = response.result.error {
-                    self.error.value = error.localizedDescription
-                    completionHandler(nil)
-                    return
-                }
-                guard let responseObj = response.result.value as? [String: Any] else {
-                    completionHandler(nil)
-                    return
-                }
-                let token = Token.getTokenFrom(jsonObj: responseObj)
-                completionHandler(token)
-            }
+        }
+        //Call the token api and start processing
+        self.tokenFetcher.request(.token, completion: tokenFetchCompletionHandler)
     }
     
     func refreshSurveys() {

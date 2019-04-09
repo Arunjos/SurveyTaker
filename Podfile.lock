@@ -5,6 +5,11 @@ PODS:
     - Fabric (~> 1.9.0)
   - Fabric (1.9.0)
   - Kingfisher (4.2.0)
+  - Moya (12.0.1):
+    - Moya/Core (= 12.0.1)
+  - Moya/Core (12.0.1):
+    - Alamofire (~> 4.1)
+    - Result (~> 4.0)
   - ObjectMapper (3.4.2)
   - OHHTTPStubs (7.0.0):
     - OHHTTPStubs/Default (= 7.0.0)
@@ -21,14 +26,15 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (7.0.0)
   - OHHTTPStubs/Swift (7.0.0):
     - OHHTTPStubs/Default
+  - Result (4.1.0)
   - SwiftLint (0.31.0)
 
 DEPENDENCIES:
-  - Alamofire
   - CHIPageControl/Aleppo (= 0.1.6)
   - Crashlytics
   - Fabric
   - Kingfisher (~> 4.2.0)
+  - Moya
   - ObjectMapper
   - OHHTTPStubs
   - OHHTTPStubs/Swift
@@ -41,8 +47,10 @@ SPEC REPOS:
     - Crashlytics
     - Fabric
     - Kingfisher
+    - Moya
     - ObjectMapper
     - OHHTTPStubs
+    - Result
     - SwiftLint
 
 SPEC CHECKSUMS:
@@ -51,10 +59,12 @@ SPEC CHECKSUMS:
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   Kingfisher: 9ee7e788d8ba07c3f21ce0d43f33cec310a4f781
+  Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   OHHTTPStubs: ef33a2c353110d306bb98f695435ec56ff5a26c3
+  Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 
-PODFILE CHECKSUM: 55428c9126c8b09b04af706c1ed613417d16dec5
+PODFILE CHECKSUM: 238a10a16261ac7f5d12772022d4699fe5031cb9
 
 COCOAPODS: 1.5.2
